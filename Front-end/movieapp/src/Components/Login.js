@@ -29,7 +29,8 @@ class Login extends Component {
    this.handleClickLogin = this.handleClick.bind(this);
   this.state = {
       popupVisible: false,
-     isToggleOn: true
+     isToggleOn: true,
+     isLogin:false
     };
 
   
@@ -61,7 +62,8 @@ class Login extends Component {
 
     this.setState(prevState => ({
        popupVisible: !prevState.popupVisible,
-          isToggleOn: prevState.isToggleOn
+          isToggleOn: prevState.isToggleOn,
+          isLogin:true
 
     }));
   }
@@ -101,7 +103,7 @@ class Login extends Component {
           >
      {this.state.isToggleOn ? 'Login' : 'Logout'}
         </button>
-        {this.state.popupVisible && (
+        {this.state.popupVisible && this.state.isLogin && (
           <div
             className="popover"
           >
@@ -131,6 +133,11 @@ class Login extends Component {
   </div>
 </div>
           </div>
+         )}
+
+                {!this.state.isLogin &&  (
+              console.log("fg")
+         
          )}
       </div>
     );
