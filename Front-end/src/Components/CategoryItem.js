@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../css/CategoryItem.css';
 import MovieInfo from './MovieInfo';
+import constants from '../conf/constants';
 
 class CategoryItem extends Component {
   constructor(props) {
@@ -10,7 +11,6 @@ class CategoryItem extends Component {
       "show": false,
       "hide":true
     };
-
     this.showMore = this.showMore.bind(this);
   }
 
@@ -27,12 +27,10 @@ class CategoryItem extends Component {
       return <MovieInfo movie={this.props.movie}/>;  
     } else {
       return (
-      
         <div className = "cards">
-
           <div className="card1" onClick = {this.showMore}>
-            <img alt = "img" className = "newImage" src={this.props.movie.img}/>
-            <p className="Name">{this.props.movie.name}</p>
+            <p className="Name">{this.props.movie.title}</p>
+            <img src={constants.SERVER_BASE_URL + this.props.movie.image} alt="im" />
           </div>
         </div>
       );

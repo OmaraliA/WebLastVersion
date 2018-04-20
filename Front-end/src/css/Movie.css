@@ -94,3 +94,9 @@ body{
 	position: fixed;
 }
 
+.error {
+	color: red;
+	margin-left: -150px;
+	font-size: 36px;
+	margin-top: 100px;
+}

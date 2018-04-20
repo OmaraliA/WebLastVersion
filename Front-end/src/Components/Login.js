@@ -1,13 +1,6 @@
-  
-
-
-
 import React, { Component } from 'react';
 import '../css/Login.css';
-
-
-
-
+import Comedy   from './Comedy';
 class Login extends Component {
     
   constructor(props){
@@ -18,7 +11,7 @@ class Login extends Component {
     password:'',
     priv:"Login",
     name:'',
-  
+    clicked:'false',  
   }
 
 
@@ -27,13 +20,13 @@ class Login extends Component {
   this.handleOutsideClick = this.handleOutsideClick.bind(this);
   this.handleLogin = this.handleLogin.bind(this);
    this.handleClickLogin = this.handleClick.bind(this);
+   this.returnClick = this.returnClick.bind(this);
+
   this.state = {
       popupVisible: false,
      isToggleOn: true,
      isLogin:false
     };
-
-  
   }
 
     handleClickLogin() {
@@ -42,14 +35,21 @@ class Login extends Component {
     });
   }
 
+  returnClick(){
+    //this.props.returnClick('true');
+    console.log('true clicked');
+  }
+
   handleLogin(){
+    this.props.handleLogin('true');
     this.setState(function(prevState){
+     
       return {
         isToggleOn: !prevState.isToggleOn,
-       popupVisible: !prevState.popupVisible
+        popupVisible: !prevState.popupVisible,
      };
     });
-
+  
   }
 
   handleClick() {
@@ -92,7 +92,7 @@ class Login extends Component {
 
 
   render() {
-    console.log(this.state.priv)
+    /*console.log(this.state.priv)*/
     return (
       <div className="container" >
         
@@ -105,27 +105,24 @@ class Login extends Component {
         </button>
         {this.state.popupVisible && this.state.isLogin && (
           <div
-            className="popover"
-          >
-           <div class="ui middle aligned center aligned grid">
-  <div class="column">
-   
-
-    <form action="" method="get" class="ui large form">
-      <div class="ui stacked secondary  segment">
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon"></i>
+            className="popover">
+           <div className="ui middle aligned center aligned grid">
+  <div className="column">
+    <form action="" method="get" className="ui large form">
+      <div className="ui stacked secondary  segment">
+        <div className="field">
+          <div className="ui left icon input">
+            <i className="user icon"></i>
             <input type="text" name="email" value={this.state.username} onChange = {this.handleChangesName.bind(this)} placeholder="E-mail address"/>
           </div>
         </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon"></i>
+        <div className="field">
+          <div className="ui left icon input">
+            <i className="lock icon"></i>
             <input type="password" name="password" value={this.state.password}  onChange = {this.handleChangesPassword.bind(this)} placeholder="Password"/>
           </div>
         </div>
-        <div class="ui fluid large inverted blue submit button" onClick ={this.handleLogin.bind(this)}> Login</div>
+        <div className="ui fluid large inverted blue submit button" onClick ={this.handleLogin.bind(this)}> Login</div>
       </div>
 
     </form>
@@ -133,11 +130,6 @@ class Login extends Component {
   </div>
 </div>
           </div>
-         )}
-
-                {!this.state.isLogin &&  (
-              console.log("fg")
-         
          )}
       </div>
     );

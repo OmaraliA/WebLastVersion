@@ -66,11 +66,6 @@
 	float: right;
 	width: 300px;
 
--webkit-animation: flash linear 1s infinite;
-	animation: flash linear 1s infinite;
-
-
-	
 }
 
 @-webkit-keyframes flash {
