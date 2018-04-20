@@ -215,9 +215,25 @@ ul {
 	border-style: solid;
 	width: 900px;
 	margin-left: 100px;
-	height: 800px;
+	height: 900px;
 }
 
 label{
 	text-align: justify;
+}
+
+
+.comm {
+	list-style: none;
+}
+
+
+li:empty {
+	display: inline;
+}
+
+#iconss {
+	font-size: 2.5rem; 
+	margin-top: 50px;
+	margin-left: 800px;
 }

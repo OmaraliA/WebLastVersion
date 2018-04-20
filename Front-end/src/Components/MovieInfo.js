@@ -4,6 +4,7 @@ import '../css/MovieInfo.css'
 import client from '../Client'
 import constants from '../conf/constants';
 
+
 class MovieInfo extends Component {
 
   constructor(props){
@@ -11,10 +12,12 @@ class MovieInfo extends Component {
     this.state = {
       commentText: '',
       comments: [],
+      favorites:[],
       nextId: 0
     };
     this.handleInput = this.handleInput.bind(this);
-     this.handleClick = this.handleClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleFav = this.handleFav.bind(this);
   }
 
   componentDidMount(){
@@ -28,6 +31,28 @@ class MovieInfo extends Component {
   handleInput(e){
     this.setState({commentText: e.target.value});
     console.log(this.state.commentText);
+  }
+
+  handleFav(){
+    console.log(constants.SERVER_BASE_URL + this.props.movie.image);
+    if(this.props.isClicked === 'true')
+    {
+      const data = {
+        'title': this.props.movie.title,
+        'description': this.props.movie.description,
+        'image':constants.SERVER_BASE_URL + this.props.movie.image
+      }
+
+  
+      client.AddFavorites(data, (com) => {
+        if (com)
+          console.log('Added to your fav!');
+      }); 
+
+    }
+    
+    else alert('You must authorize!');
+
   }
 
   handleClick(e){
@@ -50,22 +75,26 @@ class MovieInfo extends Component {
   }
 
   render() {
-     var items = this.state.comments.map((comment, index) =>
-      <li key={index}>
-     {(comment.movie_id === this.props.movie.id) && ( 
+    var items = this.state.comments.map((comment, index) =>
+      <li  className="comm" key={index}>
+    {(comment.movie_id === this.props.movie.id) && ( 
       <label> Guest: {comment.text}</label>
-     )}
+    )}
      
       </li>
-
     );
   
-  
+  console.log(this.props.isClicked);
     return (
 
 <div className="all">
 <ul>
 <div className="inside">
+
+
+<a onClick = {this.handleFav}>  <i id="iconss" className="red heart icon"></i></a>
+
+
       <div className= "info">
       <div className="images">
        <img className="img" alt = "img" src={constants.SERVER_BASE_URL + this.props.movie.image}/>
@@ -81,8 +110,10 @@ class MovieInfo extends Component {
 
         </p>
 <div id="scroll">
+
  <ul><p className="items">{items}</p>
-        <p className="com">Leave comment here</p></ul>
+
+      <p className="com">Leave comment here</p></ul>
        </div>
       </div>
         <textarea id="comments" value = {this.state.commentText} onChange = {this.handleInput}/>

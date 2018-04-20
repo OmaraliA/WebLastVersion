@@ -1,8 +1,8 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from api.models import Movie, Comedy, Romance, Thriller, Horror,Comment,Favorites
-from api.serializer import Serializer, Serializer_comedy, Serializer_horror, Serializer_romance, Serializer_thriller,Serializer_comment, Serializer_favorites
+from api.models import Movie, Comedy, Romance, Thriller, Horror,Comment,Favorites, Register
+from api.serializer import Serializer, Serializer_comedy, Serializer_horror, Serializer_romance, Serializer_thriller,Serializer_comment, Serializer_favorites, RegisterSerializer2
 
 @csrf_exempt
 def movie_list(request):
@@ -98,7 +98,7 @@ def favorite_list(request):
     serialize = Serializer_favorites(favorites, many=True)
     return JsonResponse(serialize.data, safe=False)
   elif request.method == "POST":
-    
+    print(request)
     data = JSONParser().parse(request)
     serialize = Serializer_favorites(data=data)
     if serialize.is_valid():
@@ -249,3 +249,18 @@ def favorite_detail(request, favorite_id):
     favorite.delete()
     serialize = Serializer_favorite(favorite)
     return JsonResponse(serialize.data)
+
+@csrf_exempt
+def register(request):
+	if request.method == "GET":
+		registers = Register.objects.all()
+		ser = RegisterSerializer2(registers, many=True)
+		return JsonResponse(ser.data, safe=False)
+	elif request.method == "POST":
+		print(request)
+		data = JSONParser().parse(request)
+		ser = RegisterSerializer2(data=data)
+		if ser.is_valid():
+			ser.save()
+			return JsonResponse(ser.data, status=201)
+	return JsonResponse(ser.errors, status=400)

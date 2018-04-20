@@ -9,7 +9,8 @@ class CategoryItem extends Component {
 
     this.state = {
       "show": false,
-      "hide":true
+      "hide":true,
+ 
     };
     this.showMore = this.showMore.bind(this);
   }
@@ -24,13 +25,14 @@ class CategoryItem extends Component {
 
   render() {
     if(this.state.show) {
-      return <MovieInfo movie={this.props.movie}/>;  
+      return <MovieInfo movie={this.props.movie} isClicked={this.props.isClicked}/>;  
     } else {
       return (
         <div className = "cards">
           <div className="card1" onClick = {this.showMore}>
             <p className="Name">{this.props.movie.title}</p>
-            <img src={constants.SERVER_BASE_URL + this.props.movie.image} alt="im" />
+            <img className="imgs" src={constants.SERVER_BASE_URL + this.props.movie.image} alt="im" /> 
+         
           </div>
         </div>
       );

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import Movie, Comedy, Thriller, Romance, Horror, Comment, Favorites
+from api.models import Movie, Comedy, Thriller, Romance, Horror, Comment, Favorites, Register
 
 class Serializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
@@ -104,7 +104,7 @@ class Serializer_favorites(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(required=True)
     description = serializers.CharField(required=True)
-    image = serializers.ImageField(required=True)
+    #image = serializers.ImageField(required=True)
 
     def create(self, validated_data):
         return Movie.objects.create(**validated_data)
@@ -112,11 +112,29 @@ class Serializer_favorites(serializers.Serializer):
     def update(self, instance, validated_data ):
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
-        instance.image = validated_data.get('image', instance.description)
+        #instance.image = validated_data.get('image', instance.image)
         instance.save()
         return instance
 
+class RegisterSerializer(serializers.Serializer):
+  id = serializers.IntegerField(read_only=True)
+  email = serializers.CharField(required=True)
+  password = serializers.CharField(required=True)
 
+  def create(self, validated_data):
+    return Register.objects.create(**validated_data)
+  
+  def update(self, instance, validated_data ):
+    instance.email = validated_data.get('email', instance.email)
+    instance.save()
+    return instance
+
+class RegisterSerializer2(serializers.ModelSerializer):
+  
+  class Meta:
+    model = Register
+    fields = "__all__"
+    # fields = ('id', 'title', 'created_at')
 
 class Serializer(serializers.ModelSerializer):
   

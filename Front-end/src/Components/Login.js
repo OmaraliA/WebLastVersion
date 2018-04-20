@@ -1,55 +1,70 @@
 import React, { Component } from 'react';
+import client from '../Client.js'
 import '../css/Login.css';
-import Comedy   from './Comedy';
+
 class Login extends Component {
     
   constructor(props){
-  super(props);
+    super(props);
 
-  this.state={
-    username:'',
-    password:'',
-    priv:"Login",
-    name:'',
-    clicked:'false',  
-  }
-
-
-
-  this.handleClick = this.handleClick.bind(this);
-  this.handleOutsideClick = this.handleOutsideClick.bind(this);
-  this.handleLogin = this.handleLogin.bind(this);
-   this.handleClickLogin = this.handleClick.bind(this);
-   this.returnClick = this.returnClick.bind(this);
-
-  this.state = {
+    this.handleClick = this.handleClick.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleClickLogin = this.handleClick.bind(this);
+    this.state = {
+      username:'',
+      password:'',
+      items: [],
+      priv:"Login",
+      name:'',
       popupVisible: false,
-     isToggleOn: true,
-     isLogin:false
-    };
+      isToggleOn: true,
+      isLogin:false,
+      exists: false,
+    };  
   }
 
-    handleClickLogin() {
+  componentDidMount(){
+    client.getRegister((logins) => {
+      this.setState({
+        items: logins
+      });
+    });
+  }
+
+  handleClickLogin() {
     this.setState(function(prevState) {
       return {isToggleOn: !prevState.isToggleOn};
     });
   }
 
-  returnClick(){
-    //this.props.returnClick('true');
-    console.log('true clicked');
-  }
-
   handleLogin(){
-    this.props.handleLogin('true');
+
+    var filteredItems1 = this.state.items.filter(
+      (item) => {
+        return item.email.indexOf(this.state.username) !== -1;
+      }
+    );
+
+      var filteredItems2 = filteredItems1.filter((item) => {
+          return item.password.indexOf(this.state.password) !== -1;
+        });
+
+    if(filteredItems2.length <= 0){
+      alert('Invalid username or password');
+    }
+    else {
+      alert('success');
+      this.props.handleLogin('true');
+    }
+
+
     this.setState(function(prevState){
-     
       return {
         isToggleOn: !prevState.isToggleOn,
-        popupVisible: !prevState.popupVisible,
-     };
+        popupVisible: !prevState.popupVisible
+      };
     });
-  
   }
 
   handleClick() {
@@ -61,10 +76,9 @@ class Login extends Component {
     }
 
     this.setState(prevState => ({
-       popupVisible: !prevState.popupVisible,
-          isToggleOn: prevState.isToggleOn,
-          isLogin:true
-
+      popupVisible: !prevState.popupVisible,
+      isToggleOn: prevState.isToggleOn,
+      isLogin:true
     }));
   }
   
@@ -78,21 +92,20 @@ class Login extends Component {
   }
 
   handleChangesName(e){
-      this.setState({
-        username: e.target.value
-      })
-    }
+    this.setState({
+      username: e.target.value
+    })
+  }
 
-
-    handleChangesPassword(e){
-      this.setState({
-        password : e.target.value
-      })
-    }
+  handleChangesPassword(e){
+    this.setState({
+      password : e.target.value
+    })
+  }
 
 
   render() {
-    /*console.log(this.state.priv)*/
+    console.log(this.state.priv)
     return (
       <div className="container" >
         
@@ -105,9 +118,12 @@ class Login extends Component {
         </button>
         {this.state.popupVisible && this.state.isLogin && (
           <div
-            className="popover">
+            className="popover"
+          >
            <div className="ui middle aligned center aligned grid">
   <div className="column">
+   
+
     <form action="" method="get" className="ui large form">
       <div className="ui stacked secondary  segment">
         <div className="field">
@@ -130,6 +146,11 @@ class Login extends Component {
   </div>
 </div>
           </div>
+         )}
+
+                {!this.state.isLogin &&  (
+              console.log("fg")
+         
          )}
       </div>
     );

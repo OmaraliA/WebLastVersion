@@ -25,7 +25,6 @@ class Movie extends Component {
       filterText: '',
       isClicked:'new',
       isList:'true',
-      message:'',
       error:'Error! You should logged in! Try again!'
     }
     this.handleChange = this.handleChange.bind(this);
@@ -36,7 +35,7 @@ class Movie extends Component {
     this.handleClickHome= this.handleClickHome.bind(this);
     this.handleLogin= this.handleLogin.bind(this);
     this.handleList= this.handleList.bind(this);
-    this.handleClickError= this.handleClickError.bind(this);
+ 
   }
 
   componentDidMount(){
@@ -48,7 +47,8 @@ class Movie extends Component {
 
     client.getNewMovies((newmoviess) => {
       this.setState({
-        newmovies: newmoviess
+        newmovies: newmoviess,
+        
       });
     });
 
@@ -76,14 +76,14 @@ class Movie extends Component {
       });
     });
 
-    client.getFavorites((horrorss) => {
+    client.getFavorites((favoritess) => {
       this.setState({
-        horrors: horrorss
+        favorites: favoritess
       });
     });
-  
 
-}
+
+  }
 
   handleChange(e){
     this.setState({filterText: e.target.value});
@@ -92,32 +92,28 @@ class Movie extends Component {
   handleLogin(value){
     this.setState({
       isClicked: value,
-      isList:true,
       //movies:this.state.horrors
-    
     });
     console.log(value);
     console.log(this.state.isClicked);
   }
 
   handleList(value){
-  
-    this.setState({
-      isClicked: value,
-      isList:value,
-      movies:this.state.horrors,
-      message:'',
-     
-    });
+    if(this.state.isClicked === 'true'){
+      this.setState({
+        movies:this.state.favorites,
+      });
+    }else{
+      alert('You must authorize!');
+    }
     console.log(value);
     console.log(this.state.isClicked);
     console.log(this.state.movies);
   }
 
-
   handleClickHome(){
     this.setState({
-      movies: this.state.newmovies
+      movies: this.state.newmovies,
     })
     console.log("clicked");
   }
@@ -130,121 +126,71 @@ class Movie extends Component {
   }
 
   handleClickUserPage() {
-    
     this.setState({
-      movies: this.state.comedies
+      movies: this.state.favorites,
     })
     console.log("clicked");
-
   }
 
   handleClickRomance(){
     this.setState({
-      movies: this.state.romances
+      movies: this.state.romances,
+
     })
     console.log("clicked");
   }
 
   handleClickThriller(){
     this.setState({
-      movies: this.state.thrillers
+      movies: this.state.thrillers,
     })
     console.log("clicked");
   }
 
   handleClickHorror(){
     this.setState({
-      movies: this.state.horrors
-    })
-    console.log("clicked");
-  }
-
-  
-  handleClickError(){
-    this.setState({
-      message: this.state.error,  
-      movies:[]
+      movies: this.state.horrors,
     })
     console.log("clicked");
   }
 
   render() {
   console.log(this.state.isClicked);
-    if(this.state.isClicked=='true') 
-    {
-     return (
+    return (
       <div className="main"> 
-          <div className="Left">
-            <div className="menubar">
-              <ul className="menuitems">
-                <li onClick = {this.handleClickHome}><h1>Home</h1></li>
-                <li onClick = {this.handleClickComedy}><h1>Comedy</h1></li>
-                <li onClick = {this.handleClickRomance}><h1>Romance</h1></li>
-                <li onClick = {this.handleClickThriller}><h1>Thriller</h1></li>
-                <li onClick = {this.handleClickHorror}><h1>Horror</h1></li>
-                <li onClick = {this.handleList.bind(this,this.state.isList)}><h1>My favorites</h1></li>
-              </ul>
-            </div>
+        <div className="Left">
+          <div className="menubar">
+            <ul className="menuitems">
+              <li onClick = {this.handleClickHome}><h1>Home</h1></li>
+              <li onClick = {this.handleClickComedy}><h1>Comedy</h1></li>
+              <li onClick = {this.handleClickRomance}><h1>Romance</h1></li>
+              <li onClick = {this.handleClickThriller}><h1>Thriller</h1></li>
+              <li onClick = {this.handleClickHorror}><h1>Horror</h1></li>
+              <li onClick = {this.handleList}><h1>My favorites</h1></li>
+            </ul>
           </div>
-
-        <div className="Right">
-        <div className="head">
-          <div className="ui action left icon input" id="search">
-            <input type="text" placeholder="Search..." value={this.state.filterText} onChange = {this.handleChange}/>
-            <i className="search link icon"></i>
-          
-          </div>
-     
-          </div>
-
         </div>
-      </div>
-      );     
-    }
 
-  
-   else {
-      return (
-      <div className="main"> 
-          <div className="Left">
-            <div className="menubar">
-              <ul className="menuitems">
-                <li onClick = {this.handleClickHome}><h1>Home</h1></li>
-                <li onClick = {this.handleClickComedy}><h1>Comedy</h1></li>
-                <li onClick = {this.handleClickRomance}><h1>Romance</h1></li>
-                <li onClick = {this.handleClickThriller}><h1>Thriller</h1></li>
-                <li onClick = {this.handleClickHorror}><h1>Horror</h1></li>
-                <li onClick = {this.handleClickError}><h1>My favorites</h1></li>
-                
-              </ul>
-            </div>
-          </div>
-
-        <div className="Right">
-        <div className="head">
-          <div className="ui action left icon input" id="search">
-            <input type="text" placeholder="Search..." value={this.state.filterText} onChange = {this.handleChange}/>
-            <i className="search link icon"></i>
-          
-          </div>
-          <div className="login">
-            <Login handleLogin = {this.handleLogin} />
-          </div>
-
-          <div className="register">
-            <Register/>
-          </div>
-          <p className="error">{this.state.message}</p>
-          </div>
+      <div className="Right">
+      <div className="head">
+        <div class="ui action left icon input" id="search">
+          <input type="text" placeholder="Search..." value={this.state.filterText} onChange = {this.handleChange}/>
+          <i className="search link icon"></i>
          
-            <Content movies = {this.state.movies} filterText = {this.state.filterText} />
-          
         </div>
+        <div className="login">
+        <Login handleLogin = {this.handleLogin} />
+        </div>
+
+        <div className="register">
+          <Register/>
+        </div>
+        </div>
+          <Content movies = {this.state.movies} filterText = {this.state.filterText} isClicked={this.state.isClicked}/>
       </div>
-      );
+    </div>
+    );     
   }
-}
-  
 }
 
 export default Movie;

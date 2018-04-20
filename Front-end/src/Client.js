@@ -45,11 +45,20 @@ module.exports = {
   },
   
   getFavorites(success){
-    fetch(`${BASE_URL}/movies/`)
+    fetch(`${BASE_URL}/favorites/`)
       .then(response => response.json())
       .then(success)
   },
 
+  AddFavorites(data, success){
+    console.log(JSON.stringify(data));
+    fetch(`${BASE_URL}/favorites/`, {
+      'method': 'POST',
+      'body': JSON.stringify(data) 
+    })
+      .then(response => response.json())
+      .then(success)
+  },
 
   AddComment(data, success){
     fetch(`${BASE_URL}/comments/`, {
@@ -58,7 +67,25 @@ module.exports = {
     })
       .then(response => response.json())
       .then(success)
+  },
+
+  getRegister(success){
+    fetch(`${BASE_URL}/register/`)
+      .then(response => response.json())
+      .then(success)
+  },
+
+  createRegister(data, success){
+   // console.log(JSON.stringify(data));
+    fetch(`${BASE_URL}/register/`, {
+      'method': 'POST',
+      'body': JSON.stringify(data) 
+      
+    })
+      .then(response => response.json())
+      .then(success)
   }
+
 /*
 
   deleteTodo(id, success){
