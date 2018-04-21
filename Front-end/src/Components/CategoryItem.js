@@ -26,13 +26,19 @@ class CategoryItem extends Component {
   render() {
     if(this.state.show) {
       return <MovieInfo movie={this.props.movie} isClicked={this.props.isClicked}/>;  
-    } else {
+    }if(this.props.favClicked === 'true'){
+        return (
+          <div className = "favDiv">
+              <p className = "favName">{this.props.movie.title}</p>
+              <p>{this.props.movie.description}</p> 
+          </div>
+        );
+    }else {
       return (
         <div className = "cards">
           <div className="card1" onClick = {this.showMore}>
             <p className="Name">{this.props.movie.title}</p>
             <img className="imgs" src={constants.SERVER_BASE_URL + this.props.movie.image} alt="im" /> 
-         
           </div>
         </div>
       );

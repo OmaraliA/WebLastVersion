@@ -103,6 +103,7 @@ class Serializer_comment(serializers.Serializer):
 class Serializer_favorites(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(required=True)
+    favorites_id = serializers.IntegerField(required=True)
     description = serializers.CharField(required=True)
     #image = serializers.ImageField(required=True)
 
@@ -112,6 +113,7 @@ class Serializer_favorites(serializers.Serializer):
     def update(self, instance, validated_data ):
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
+        instance.favorites_id = validated_data.get('favorites_id', instance.favorites_id)
         #instance.image = validated_data.get('image', instance.image)
         instance.save()
         return instance
@@ -120,12 +122,14 @@ class RegisterSerializer(serializers.Serializer):
   id = serializers.IntegerField(read_only=True)
   email = serializers.CharField(required=True)
   password = serializers.CharField(required=True)
+ 
 
   def create(self, validated_data):
     return Register.objects.create(**validated_data)
   
   def update(self, instance, validated_data ):
     instance.email = validated_data.get('email', instance.email)
+    instance.password = validated_data.get('password', instance.password)
     instance.save()
     return instance
 

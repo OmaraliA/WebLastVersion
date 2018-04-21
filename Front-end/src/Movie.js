@@ -24,8 +24,8 @@ class Movie extends Component {
       favorites:[],
       filterText: '',
       isClicked:'new',
-      isList:'true',
-      error:'Error! You should logged in! Try again!'
+      favClicked: 'false'
+
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleClickComedy = this.handleClickComedy.bind(this);
@@ -102,6 +102,7 @@ class Movie extends Component {
     if(this.state.isClicked === 'true'){
       this.setState({
         movies:this.state.favorites,
+        favClicked: 'true'
       });
     }else{
       alert('You must authorize!');
@@ -114,13 +115,15 @@ class Movie extends Component {
   handleClickHome(){
     this.setState({
       movies: this.state.newmovies,
+      favClicked: 'false'
     })
     console.log("clicked");
   }
 
   handleClickComedy(){
     this.setState({
-      movies: this.state.comedies
+      movies: this.state.comedies,
+      favClicked: 'false'
     })
     console.log("clicked");
   }
@@ -135,7 +138,7 @@ class Movie extends Component {
   handleClickRomance(){
     this.setState({
       movies: this.state.romances,
-
+      favClicked: 'false'
     })
     console.log("clicked");
   }
@@ -143,6 +146,7 @@ class Movie extends Component {
   handleClickThriller(){
     this.setState({
       movies: this.state.thrillers,
+      favClicked: 'false'
     })
     console.log("clicked");
   }
@@ -150,6 +154,7 @@ class Movie extends Component {
   handleClickHorror(){
     this.setState({
       movies: this.state.horrors,
+      favClicked: 'false'
     })
     console.log("clicked");
   }
@@ -186,7 +191,8 @@ class Movie extends Component {
           <Register/>
         </div>
         </div>
-          <Content movies = {this.state.movies} filterText = {this.state.filterText} isClicked={this.state.isClicked}/>
+          <Content movies = {this.state.movies} filterText = {this.state.filterText} 
+            isClicked={this.state.isClicked} favClicked={this.state.favClicked}/>
       </div>
     </div>
     );     

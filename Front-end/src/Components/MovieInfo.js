@@ -12,6 +12,7 @@ class MovieInfo extends Component {
     this.state = {
       commentText: '',
       comments: [],
+      users:[],
       favorites:[],
       nextId: 0
     };
@@ -24,6 +25,14 @@ class MovieInfo extends Component {
     client.getComments((comment) => {
       this.setState({
         comments: comment
+      
+      });
+    });
+
+    client.getRegister((user) => {
+      this.setState({
+        users: user
+      
       });
     });
   }
@@ -34,20 +43,23 @@ class MovieInfo extends Component {
   }
 
   handleFav(){
-    console.log(constants.SERVER_BASE_URL + this.props.movie.image);
+    
     if(this.props.isClicked === 'true')
     {
       const data = {
         'title': this.props.movie.title,
         'description': this.props.movie.description,
-        'image':constants.SERVER_BASE_URL + this.props.movie.image
+        'favorites_id':this.state.users.id
       }
 
   
+
       client.AddFavorites(data, (com) => {
         if (com)
           console.log('Added to your fav!');
-      }); 
+      });
+      
+
 
     }
     
@@ -80,7 +92,6 @@ class MovieInfo extends Component {
     {(comment.movie_id === this.props.movie.id) && ( 
       <label> Guest: {comment.text}</label>
     )}
-     
       </li>
     );
   

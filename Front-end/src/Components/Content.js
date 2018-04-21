@@ -11,7 +11,7 @@ class Content extends Component {
     	<div className="Content">
     	
     		<div className="Bottom">
-    			<ContentView movies = {this.props.movies} filterText={this.props.filterText } isClicked={this.props.isClicked}/>
+    			<ContentView movies = {this.props.movies} username = {this.props.username} favClicked={this.props.favClicked} filterText={this.props.filterText } isClicked={this.props.isClicked}/>
     		</div>
     	</div> 
     );

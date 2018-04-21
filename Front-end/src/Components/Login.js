@@ -11,6 +11,7 @@ class Login extends Component {
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleClickLogin = this.handleClick.bind(this);
+
     this.state = {
       username:'',
       password:'',
@@ -38,34 +39,43 @@ class Login extends Component {
     });
   }
 
+  handleClickLogin() {
+    this.setState(function(prevState) {
+      return {isToggleOn: !prevState.isToggleOn};
+    });
+  }
+
   handleLogin(){
 
-    var filteredItems1 = this.state.items.filter(
-      (item) => {
-        return item.email.indexOf(this.state.username) !== -1;
-      }
-    );
+    if(this.state.username.length === 0 || this.state.password.length === 0){
+      alert('Invalid inputs!');
+    }else{
+      var filteredItems1 = this.state.items.filter(
+        (item) => {
+          return item.email.indexOf(this.state.username) !== -1;
+        }
+      );
 
       var filteredItems2 = filteredItems1.filter((item) => {
           return item.password.indexOf(this.state.password) !== -1;
+      });
+
+      if(filteredItems2.length <= 0){
+        alert('Invalid username or password');
+      }
+      else {
+        alert('success');
+        this.props.handleLogin('true');
+        this.setState(function(prevState){
+          return {
+            isToggleOn: !prevState.isToggleOn,
+            popupVisible: !prevState.popupVisible
+          };
         });
-
-    if(filteredItems2.length <= 0){
-      alert('Invalid username or password');
+      }
     }
-    else {
-      alert('success');
-      this.props.handleLogin('true');
-    }
-
-
-    this.setState(function(prevState){
-      return {
-        isToggleOn: !prevState.isToggleOn,
-        popupVisible: !prevState.popupVisible
-      };
-    });
   }
+ 
 
   handleClick() {
     if (!this.state.popupVisible) {

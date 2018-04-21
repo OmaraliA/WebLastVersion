@@ -13,7 +13,7 @@ class ContentView extends Component {
 
         var items = filteredMovies.map((movie) => {
           return <CategoryItem key = {movie.id}
-          movie = {movie} showMore = {this.showMore} isClicked={this.props.isClicked}/>
+          movie = {movie} showMore = {this.showMore} isClicked={this.props.isClicked} favClicked={this.props.favClicked} />
         });
        
         return(
